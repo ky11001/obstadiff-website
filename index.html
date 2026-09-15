@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Primary Meta Tags -->
+  <meta name="title" content="ObstaDiff: Generalizable Diffusion Policy Learning via Obstacle-aware Representations - Jiawen Wang, Kevin Yao, Khalid Jawed">
+  <meta name="description" content="ObstaDiff is a decomposed diffusion-policy framework with a lightweight obstacle-aware visual encoder, reaching 75.41% task success and 8.20% collision rate over 366 real-robot greenhouse executions.">
+  <meta name="keywords" content="imitation learning, diffusion policy, obstacle-aware representations, robot manipulation, agricultural robotics, eye-in-hand RGB-D, CoRL 2026, machine learning, computer vision, AI">
+  <meta name="author" content="Jiawen Wang, Kevin Yao, Khalid Jawed">
+  <meta name="robots" content="index, follow">
+  <meta name="language" content="English">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="University of California, Los Angeles">
+  <meta property="og:title" content="ObstaDiff: Generalizable Diffusion Policy Learning via Obstacle-aware Representations">
+  <meta property="og:description" content="A decomposed diffusion-policy framework with a lightweight obstacle-aware visual encoder for cluttered, real-world manipulation.">
+  <!-- TODO: Replace with your actual website URL once deployed -->
+  <meta property="og:url" content="https://YOUR_DOMAIN.com/obstadiff">
+  <meta property="og:image" content="https://YOUR_DOMAIN.com/obstadiff/static/images/social_preview.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="ObstaDiff - Research Preview">
+  <meta property="article:published_time" content="2026-09-10T00:00:00.000Z">
+  <meta property="article:author" content="Jiawen Wang">
+  <meta property="article:section" content="Research">
+  <meta property="article:tag" content="Imitation learning">
+  <meta property="article:tag" content="Diffusion policy">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <!-- TODO: Replace with your lab/institution and first-author Twitter handles, or delete -->
+  <meta name="twitter:site" content="@YOUR_TWITTER_HANDLE">
+  <meta name="twitter:creator" content="@AUTHOR_TWITTER_HANDLE">
+  <meta name="twitter:title" content="ObstaDiff: Generalizable Diffusion Policy Learning via Obstacle-aware Representations">
+  <meta name="twitter:description" content="A decomposed diffusion-policy framework with a lightweight obstacle-aware visual encoder for cluttered, real-world manipulation.">
+  <meta name="twitter:image" content="https://YOUR_DOMAIN.com/obstadiff/static/images/social_preview.png">
+  <meta name="twitter:image:alt" content="ObstaDiff - Research Preview">
+
+  <!-- Academic/Research Specific -->
+  <meta name="citation_title" content="ObstaDiff: Generalizable Diffusion Policy Learning via Obstacle-aware Representations">
+  <meta name="citation_author" content="Wang, Jiawen">
+  <meta name="citation_author" content="Yao, Kevin">
+  <meta name="citation_author" content="Jawed, Khalid">
+  <meta name="citation_publication_date" content="2026">
+  <meta name="citation_conference_title" content="Conference on Robot Learning (CoRL)">
+  <meta name="citation_arxiv_id" content="2609.10918">
+  <meta name="citation_pdf_url" content="https://arxiv.org/pdf/2609.10918">
+
+  <!-- Additional SEO -->
+  <meta name="theme-color" content="#2563eb">
+  <meta name="msapplication-TileColor" content="#2563eb">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+
+  <!-- Preconnect for performance -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://ajax.googleapis.com">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+
+  <title>ObstaDiff: Generalizable Diffusion Policy Learning via Obstacle-aware Representations</title>
+
+  <!-- Favicon and App Icons -->
+  <link rel="icon" type="image/x-icon" href="static/images/favicon.ico">
+  <link rel="apple-touch-icon" href="static/images/favicon.ico">
+
+  <!-- Critical CSS - Load synchronously -->
+  <link rel="stylesheet" href="static/css/bulma.min.css">
+  <link rel="stylesheet" href="static/css/index.css">
+
+  <!-- Non-critical CSS - Load asynchronously -->
+  <link rel="preload" href="static/css/bulma-carousel.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="static/css/bulma-slider.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="static/css/fontawesome.all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+
+  <!-- Fallback for browsers that don't support preload -->
+  <noscript>
+    <link rel="stylesheet" href="static/css/bulma-carousel.min.css">
+    <link rel="stylesheet" href="static/css/bulma-slider.min.css">
+    <link rel="stylesheet" href="static/css/fontawesome.all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  </noscript>
+
+  <!-- Fonts - Optimized loading -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Defer non-critical JavaScript -->
+  <script defer src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="static/js/bulma-carousel.min.js"></script>
+  <script defer src="static/js/bulma-slider.min.js"></script>
+  <script defer src="static/js/index.js"></script>
+
+  <!-- Structured Data for Academic Papers -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ScholarlyArticle",
+    "headline": "ObstaDiff: Generalizable Diffusion Policy Learning via Obstacle-aware Representations",
+    "description": "A decomposed diffusion-policy framework with a lightweight obstacle-aware visual encoder for imitation learning in cluttered scenes.",
+    "author": [
+      { "@type": "Person", "name": "Jiawen Wang",
+        "affiliation": { "@type": "Organization", "name": "University of California, Los Angeles" } },
+      { "@type": "Person", "name": "Kevin Yao",
+        "affiliation": { "@type": "Organization", "name": "University of California, Los Angeles" } },
+      { "@type": "Person", "name": "Khalid Jawed",
+        "affiliation": { "@type": "Organization", "name": "University of California, Los Angeles" } }
+    ],
+    "datePublished": "2026-09-10",
+    "publisher": { "@type": "Organization", "name": "Conference on Robot Learning (CoRL)" },
+    "url": "https://arxiv.org/abs/2609.10918",
+    "image": "https://YOUR_DOMAIN.com/obstadiff/static/images/social_preview.png",
+    "keywords": ["imitation learning", "diffusion policy", "obstacle-aware representations", "robot manipulation", "agricultural robotics"],
+    "abstract": "Imitation learning has achieved impressive results in robotic manipulation, yet most existing approaches assume clean backgrounds and lack explicit mechanisms for obstacle-aware motion generation. Extending such policies to cluttered, real-world scenes with unstructured obstacles remains a key generalization challenge. We present ObstaDiff, a decomposed diffusion-policy framework with a lightweight obstacle-aware visual encoder.",
+    "isAccessibleForFree": true,
+    "license": "https://creativecommons.org/licenses/by/4.0/",
+    "about": [
+      { "@type": "Thing", "name": "Robotics" },
+      { "@type": "Thing", "name": "Machine Learning" }
+    ]
+  }
+  </script>
+</head>
+<body>
+
+  <main id="main-content">
+  <section class="hero">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+            <h1 class="title is-1 publication-title">ObstaDiff: Generalizable Diffusion Policy Learning via Obstacle-aware Representations</h1>
+            <div class="is-size-5 publication-authors">
+              <!-- TODO: Add personal homepage links for each author -->
+              <span class="author-block">
+                <a href="AUTHOR_HOMEPAGE" target="_blank">Jiawen Wang</a><sup>1</sup>,</span>
+              <span class="author-block">
+                <a href="AUTHOR_HOMEPAGE" target="_blank">Kevin Yao</a><sup>2</sup>,</span>
+              <span class="author-block">
+                <a href="AUTHOR_HOMEPAGE" target="_blank">Khalid Jawed</a><sup>1,*</sup>
+              </span>
+            </div>
+
+            <div class="is-size-5 publication-authors">
+              <span class="author-block">
+                <sup>1</sup>Department of Mechanical and Aerospace Engineering, UCLA<br>
+                <sup>2</sup>Department of Computer Science, UCLA<br>
+                Conference on Robot Learning (CoRL) 2026, Austin, TX, USA
+              </span>
+              <span class="eql-cntrb"><small><br><sup>*</sup>Corresponding author: khalidjm@seas.ucla.edu</small></span>
+            </div>
+
+            <div class="column has-text-centered">
+              <div class="publication-links">
+                <span class="link-block">
+                  <a href="static/pdfs/obstadiff.pdf" target="_blank"
+                     class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon"><i class="fas fa-file-pdf"></i></span>
+                    <span>Paper</span>
+                  </a>
+                </span>
+
+                <!-- TODO: Replace with your GitHub repository URL, or delete this block -->
+                <span class="link-block">
+                  <a href="https://github.com/YOUR_REPO_HERE" target="_blank"
+                     class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon"><i class="fab fa-github"></i></span>
+                    <span>Code</span>
+                  </a>
+                </span>
+
+                <span class="link-block">
+                  <a href="https://arxiv.org/abs/2609.10918" target="_blank"
+                     class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon"><i class="ai ai-arxiv"></i></span>
+                    <span>arXiv</span>
+                  </a>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+<!-- Teaser -->
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <img src="static/images/teaser_figure1.png" alt="ObstaDiff learns a structured target-obstacle-background representation for imitation learning in cluttered scenes"/>
+      <h2 class="subtitle has-text-centered">
+        ObstaDiff learns a structured <b>target&ndash;obstacle&ndash;background (TOB)</b> representation for imitation
+        learning in cluttered scenes. This representation enables obstacle-aware approach motions, leading to
+        improved generalization across target-pose, obstacle-layout, and target-appearance settings while reducing
+        the average obstacle collision rate, as shown in (c).
+      </h2>
+    </div>
+  </div>
+</section>
+<!-- End teaser -->
+
+
+<!-- Paper abstract -->
+<section class="section hero is-light">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            Imitation learning has achieved impressive results in robotic manipulation, yet most existing
+            approaches assume clean backgrounds and lack explicit mechanisms for obstacle-aware motion
+            generation. Extending such policies to cluttered, real-world scenes with unstructured obstacles
+            remains a key generalization challenge. We present <b>ObstaDiff</b>, a decomposed diffusion-policy
+            framework with a lightweight obstacle-aware visual encoder. ObstaDiff extracts a structured
+            target&ndash;obstacle&ndash;background representation, enabling the downstream alignment policy to
+            generate end-effector trajectories toward a target-centered bottleneck pose while reasoning about
+            surrounding obstacles. We evaluate ObstaDiff on 61 real-robot greenhouse trials per method
+            (366 executions in total). ObstaDiff achieves <b>75.41% average task success</b> and
+            <b>8.20% average obstacle collision rate</b>, outperforming representative imitation-learning
+            baselines and improving generalization in cluttered agricultural scenes.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End paper abstract -->
+
+
+<!-- Method -->
+<section class="section hero">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-full">
+        <h2 class="title is-3">Method</h2>
+        <img src="static/images/figure2_overview.png" alt="Overview of the ObstaDiff framework" loading="lazy"/>
+        <h2 class="subtitle has-text-centered">
+          <b>Overview of ObstaDiff.</b> Eye-in-hand RGB-D observations are converted into a structured
+          target&ndash;obstacle&ndash;background (TOB) representation and encoded with robot state into a 103-D
+          conditioning vector for a diffusion policy. The policy performs obstacle-aware alignment to a
+          target-centered bottleneck pose, after which replayed actions execute close-range interaction.
+        </h2>
+      </div>
+    </div>
+
+    <div class="columns is-centered">
+      <div class="column is-four-fifths">
+        <div class="content has-text-justified">
+          <p>
+            <b>Structured TOB observation.</b> Every pixel of the eye-in-hand frame is assigned one of three
+            semantic roles &mdash; target, obstacle, or background &mdash; producing three binary masks that are
+            concatenated with the aligned, normalized depth image into a compact four-channel input. Encoding
+            semantic roles and depth this way preserves target&ndash;obstacle spatial relationships while
+            suppressing appearance-level background variation.
+          </p>
+          <p>
+            <b>Obstacle-aware encoder.</b> The TOB observation is not a natural image, so it is split into a
+            semantic branch and a depth branch. Their features are concatenated with the 7-D end-effector pose
+            into a 103-D conditioning vector, which over two observation steps forms the 206-D input to the
+            conditional diffusion U-Net.
+          </p>
+          <p>
+            <b>Alignment-stage diffusion policy.</b> A noise-prediction network is trained to denoise action
+            sequences conditioned on the encoded structured observations. At inference the policy predicts
+            16 actions and executes the first 8 in a receding-horizon manner before re-planning.
+          </p>
+          <p>
+            <b>Bottleneck switching.</b> Rather than switching at a hard-coded pose, ObstaDiff compares the
+            current target observation against a replay library collected from demonstrations and switches to
+            the replay-based interaction stage when a close enough entry is found. Decoupling obstacle-aware
+            approach from close-range behavior lets the same alignment policy support touching, harvesting, or
+            inspection by changing only the replay library &mdash; no retraining required.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End method -->
+
+
+<!-- Experimental setup -->
+<section class="section hero is-light">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-full">
+        <h2 class="title is-3">Experimental Setup</h2>
+      </div>
+    </div>
+    <div class="columns is-centered is-vcentered">
+      <div class="column is-half">
+        <img src="static/images/figure3_setup.png" alt="Indoor greenhouse testbed with a Sawyer robot, target pepper, background plants and obstacle plants" loading="lazy"/>
+      </div>
+      <div class="column is-half">
+        <div class="content has-text-justified">
+          <p>
+            <b>Hardware.</b> All real-robot experiments run on a 7-DoF Sawyer arm with an eye-in-hand Intel
+            RealSense D455 RGB-D camera, used directly as the onboard observation sensor without external
+            camera calibration. Policies are deployed on an NVIDIA RTX 2080 Ti and trained on an RTX 6000 Ada.
+          </p>
+          <p>
+            <b>Task.</b> An indoor greenhouse testbed reproduces the visual clutter and spatial constraints of
+            real greenhouse manipulation. The robot must reach a pepper target inside a predefined target region
+            while avoiding the surrounding plant obstacles.
+          </p>
+          <p><b>Three generalization settings, 61 trials in total:</b></p>
+          <ul>
+            <li><b>TPG</b> &mdash; target-pose generalization: 10 target positions &times; 2 orientations (20 trials).</li>
+            <li><b>OLG</b> &mdash; obstacle-layout generalization: 3 obstacle orderings, 7 obstacle positions (21 trials).</li>
+            <li><b>TAG</b> &mdash; target-appearance generalization: two unseen green pepper varieties, 10 poses each (20 trials).</li>
+          </ul>
+          <p>
+            Six methods &times; 61 trials gives <b>366 real-robot executions</b>. Training uses 90 expert
+            alignment demonstrations.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End experimental setup -->
+
+
+<!-- Results -->
+<section class="section hero">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-full">
+        <h2 class="title is-3">Results</h2>
+      </div>
+    </div>
+    <div class="columns is-centered">
+      <div class="column is-full results-column">
+        <div class="content">
+          <div class="table-container">
+            <table class="table is-fullwidth is-narrow results-table">
+              <thead>
+                <tr>
+                  <th rowspan="2">Method</th>
+                  <th colspan="4" class="has-text-centered">TSR (%) &uarr;</th>
+                  <th colspan="4" class="has-text-centered">OCR (%) &darr;</th>
+                  <th rowspan="2" class="has-text-right">TCT (s) &darr;</th>
+                  <th rowspan="2" class="has-text-right">Smooth (10<sup>&minus;4</sup>) &darr;</th>
+                </tr>
+                <tr>
+                  <th class="has-text-right">TPG</th><th class="has-text-right">OLG</th>
+                  <th class="has-text-right">TAG</th><th class="has-text-right">Mean</th>
+                  <th class="has-text-right">TPG</th><th class="has-text-right">OLG</th>
+                  <th class="has-text-right">TAG</th><th class="has-text-right">Mean</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>ACT (RGB)</td><td>40.00</td><td>52.38</td><td>45.00</td><td>45.90</td><td>25.00</td><td>14.29</td><td>5.00</td><td>14.75</td><td>20.77</td><td>1.16</td></tr>
+                <tr><td>ACT (TOB)</td><td>30.00</td><td>66.67</td><td>25.00</td><td>40.98</td><td>15.00</td><td>14.29</td><td>5.00</td><td>11.48</td><td>18.38</td><td><b>0.77</b></td></tr>
+                <tr><td>DP (RGB)</td><td>55.00</td><td>42.86</td><td>50.00</td><td>49.18</td><td>35.00</td><td>33.33</td><td>10.00</td><td>26.23</td><td>18.41</td><td>1.35</td></tr>
+                <tr><td>DP (RGB-D)</td><td>60.00</td><td>42.86</td><td>50.00</td><td>50.82</td><td>35.00</td><td>33.33</td><td>10.00</td><td>26.23</td><td>18.67</td><td>1.34</td></tr>
+                <tr><td>DP (TOB)</td><td>55.00</td><td>38.10</td><td>45.00</td><td>45.90</td><td>30.00</td><td>38.10</td><td>15.00</td><td>27.87</td><td>18.17</td><td>1.19</td></tr>
+                <tr class="is-ours">
+                  <td><b>ObstaDiff (ours)</b></td>
+                  <td><b>75.00</b></td><td><b>71.43</b></td><td><b>80.00</b></td><td><b>75.41</b></td>
+                  <td><b>5.00</b></td><td>19.05</td><td><b>0.00</b></td><td><b>8.20</b></td>
+                  <td><b>15.57</b></td><td>1.13</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="table-caption">
+            <b>Table 1. Main real-robot results across three generalization settings.</b> Each method is run on
+            all 61 trials (TPG n=20, OLG n=21, TAG n=20), giving 366 real-robot executions in total; the mean is
+            computed over the 61 pooled trials rather than as an average of the three per-setting rates. TCT and
+            trajectory smoothness are computed over successful TPG trials. Best results in bold.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="columns is-centered">
+      <div class="column is-four-fifths">
+        <div class="content has-text-justified">
+          <p>
+            ObstaDiff achieves the best task success rate in all three generalization settings, with a mean TSR
+            of <b>75.41%</b> against 45.90% for ACT (RGB) and 49.18% for DP (RGB), and the best mean OCR
+            (<b>8.20%</b> versus 14.75% and 26.23%). Qualitatively, baseline policies often move directly toward
+            the target and contact nearby plants in cluttered layouts, while ObstaDiff aligns with the
+            target-centered free space before entering the bottleneck region.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End results -->
+
+
+<!-- Ablations -->
+<section class="section hero is-light">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-full">
+        <h2 class="title is-3">Ablations</h2>
+      </div>
+    </div>
+    <div class="columns is-centered is-vcentered">
+      <div class="column is-half">
+        <img src="static/images/figure4_training.png" alt="Validation loss curves showing that TOB stabilizes training for both diffusion policy and ACT backbones" loading="lazy"/>
+        <h2 class="subtitle has-text-centered">
+          <b>TOB stabilizes training.</b> TOB reduces validation loss, but the ACT (TOB) real-robot results
+          suggest that lower supervised loss alone does not guarantee higher task success.
+        </h2>
+      </div>
+      <div class="column is-half">
+        <div class="content has-text-justified">
+          <p>
+            <b>Depth alone is not enough.</b> Appending aligned depth to the standard DP encoder moves mean TSR
+            only from 49.18% to 50.82% &mdash; one additional successful trial out of 61 &mdash; and leaves OCR
+            unchanged at 26.23%.
+          </p>
+          <p>
+            <b>Structured input alone is not enough either.</b> Feeding the same encoder the identical
+            four-channel TOB observation drops mean TSR to 45.90% and raises mean OCR to 27.87%. Since
+            DP (TOB) and ObstaDiff share the same observation, demonstrations, and batch size, the remaining
+            <b>29.5-point TSR gap is attributable to the structured encoder</b>.
+          </p>
+          <p>
+            <b>The pattern holds on a different policy class.</b> Adding TOB to ACT cuts mean OCR from 14.75%
+            to 11.48% and improves trajectory smoothness from 1.16 to 0.77, but mean TSR drops from 45.90% to
+            40.98%.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End ablations -->
+
+
+<!-- TOB preprocessing -->
+<section class="section hero">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-full">
+        <h2 class="title is-3">TOB Preprocessing</h2>
+        <img src="static/images/figure5_tob.png" alt="Example TOB preprocessing outputs: RGB with target box, semantic parsing, background mask, obstacle mask, target mask and depth channel" loading="lazy"/>
+        <h2 class="subtitle has-text-centered">
+          <b>Example TOB preprocessing outputs.</b> From left to right and top to bottom: raw RGB with the
+          target box, semantic parsing, and the background, obstacle and target masks plus the depth channel
+          that together form the four-channel policy input.
+        </h2>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End TOB preprocessing -->
+
+
+<!--
+  OPTIONAL SECTIONS from the Academic Project Page Template.
+  Paste either block back in where you want it; the CSS and JS are already vendored.
+
+  Rollout video carousel:
+  <section class="hero is-small">
+    <div class="hero-body">
+      <div class="container">
+        <h2 class="title is-3">Rollouts</h2>
+        <div id="results-carousel" class="carousel results-carousel">
+          <div class="item item-video1">
+            <video poster="" id="video1" controls muted loop height="100%" preload="metadata">
+              <source src="static/videos/rollout1.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  YouTube presentation:
+  <section class="hero is-small is-light">
+    <div class="hero-body">
+      <div class="container">
+        <h2 class="title is-3">Video Presentation</h2>
+        <div class="columns is-centered has-text-centered">
+          <div class="column is-four-fifths">
+            <div class="publication-video">
+              <iframe src="https://www.youtube.com/embed/YOUR_VIDEO_ID" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+-->
+
+
+<!--BibTex citation -->
+  <section class="section" id="BibTeX">
+    <div class="container is-max-desktop content">
+      <div class="bibtex-header">
+        <h2 class="title">BibTeX</h2>
+        <button class="copy-bibtex-btn" onclick="copyBibTeX()" title="Copy BibTeX to clipboard">
+          <i class="fas fa-copy"></i>
+          <span class="copy-text">Copy</span>
+        </button>
+      </div>
+      <pre id="bibtex-code"><code>@inproceedings{wang2026obstadiff,
+  title     = {ObstaDiff: Generalizable Diffusion Policy Learning via Obstacle-aware Representations},
+  author    = {Wang, Jiawen and Yao, Kevin and Jawed, Khalid},
+  booktitle = {Proceedings of the 10th Conference on Robot Learning (CoRL)},
+  address   = {Austin, TX, USA},
+  year      = {2026},
+  url       = {https://arxiv.org/abs/2609.10918}
+}</code></pre>
+    </div>
+</section>
+<!--End BibTex citation -->
+
+
+  <footer class="footer">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+
+          <p>
+            This page was built using the <a href="https://github.com/eliahuhorwitz/Academic-project-page-template" target="_blank">Academic Project Page Template</a> which was adopted from the <a href="https://nerfies.github.io" target="_blank">Nerfies</a> project page.
+            You are free to borrow the source code of this website, we just ask that you link back to this page in the footer. <br> This website is licensed under a <a rel="license"  href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank">Creative
+            Commons Attribution-ShareAlike 4.0 International License</a>.
+          </p>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+  </main>
+  </body>
+  </html>
